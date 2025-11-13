@@ -9,8 +9,8 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -1344,
-        464
+        -1600,
+        560
       ],
       "webhookId": "a889d2ae-2159-402f-b326-5f61e90f602e"
     },
@@ -21,8 +21,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -1008,
-        464
+        -1192,
+        560
       ],
       "id": "46268532-607a-441f-9c68-600802f6e92d",
       "name": "AI Agent"
@@ -34,8 +34,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1120,
-        688
+        -1376,
+        784
       ],
       "id": "753656d9-fb83-43f9-b617-696020411c60",
       "name": "Google Gemini Chat Model1",
@@ -51,8 +51,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -992,
-        688
+        -1248,
+        784
       ],
       "id": "aeead62e-c05c-444a-a4ce-9566e6bfcad4",
       "name": "Simple Memory1"
@@ -67,8 +67,8 @@
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.1,
       "position": [
-        -736,
-        688
+        -1120,
+        784
       ],
       "id": "04c638b6-c45a-456d-84fe-94f30bf69975",
       "name": "Send a message in Gmail1",
@@ -84,31 +84,45 @@
       "parameters": {
         "calendar": {
           "__rl": true,
-          "value": "tomasz.jader@gmail.com",
-          "mode": "list",
-          "cachedResultName": "tomasz.jader@gmail.com"
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Calendar', ``, 'string') }}",
+          "mode": "id"
         },
         "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
         "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
         "useDefaultReminders": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Use_Default_Reminders', ``, 'boolean') }}",
         "additionalFields": {
-          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}"
+          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}",
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
         }
       },
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        -864,
-        688
+        -992,
+        784
       ],
       "id": "4e074940-4dbb-4abd-967a-06bfd95dda2c",
       "name": "Create an event in Google Calendar",
+      "notesInFlow": false,
       "credentials": {
         "googleCalendarOAuth2Api": {
           "id": "Kif8MuBn1SYbgina",
           "name": "Google Calendar account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        -864,
+        784
+      ],
+      "id": "1534ad0e-6bb5-405b-b3f3-91320e5f928c",
+      "name": "Date & Time"
     }
   ],
   "connections": {
@@ -157,6 +171,17 @@
       ]
     },
     "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
       "ai_tool": [
         [
           {
