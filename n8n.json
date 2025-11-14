@@ -4,27 +4,29 @@
       "parameters": {
         "options": {}
       },
-      "id": "b24b05a7-d802-4413-bfb1-23e1e76f6203",
+      "id": "b4ea1ecb-51f8-4c5d-9397-48d83d365252",
       "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        -1600,
-        560
+        -1952,
+        656
       ],
       "webhookId": "a889d2ae-2159-402f-b326-5f61e90f602e"
     },
     {
       "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -1192,
-        560
+        -1328,
+        32
       ],
-      "id": "46268532-607a-441f-9c68-600802f6e92d",
+      "id": "4182f86c-3680-4739-83d4-0c2f9a573b15",
       "name": "AI Agent"
     },
     {
@@ -34,10 +36,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1376,
-        784
+        -1504,
+        256
       ],
-      "id": "753656d9-fb83-43f9-b617-696020411c60",
+      "id": "a6bd96b5-339e-4e15-a70c-094cc401133d",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
@@ -45,17 +47,6 @@
           "name": "Google Gemini(PaLM) Api account"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        -1248,
-        784
-      ],
-      "id": "aeead62e-c05c-444a-a4ce-9566e6bfcad4",
-      "name": "Simple Memory1"
     },
     {
       "parameters": {
@@ -67,10 +58,10 @@
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.1,
       "position": [
-        -1120,
-        784
+        -1248,
+        256
       ],
-      "id": "04c638b6-c45a-456d-84fe-94f30bf69975",
+      "id": "8e05d375-3db9-47b3-b6b5-9fac9fd31546",
       "name": "Send a message in Gmail1",
       "webhookId": "50fc2d95-1823-4a3a-95dc-b7465e60f4dd",
       "credentials": {
@@ -98,10 +89,10 @@
       "type": "n8n-nodes-base.googleCalendarTool",
       "typeVersion": 1.3,
       "position": [
-        -992,
-        784
+        -1120,
+        256
       ],
-      "id": "4e074940-4dbb-4abd-967a-06bfd95dda2c",
+      "id": "971e439a-bc51-4c6b-a9b4-d83fe44bbd45",
       "name": "Create an event in Google Calendar",
       "notesInFlow": false,
       "credentials": {
@@ -118,19 +109,160 @@
       "type": "n8n-nodes-base.dateTimeTool",
       "typeVersion": 2,
       "position": [
-        -864,
-        784
+        -992,
+        256
       ],
-      "id": "1534ad0e-6bb5-405b-b3f3-91320e5f928c",
+      "id": "5b397335-2a82-4947-96cf-715ae80f97a1",
       "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1952,
+        384
+      ],
+      "id": "33897b41-e712-4283-9f47-0be0f57140da",
+      "name": "Telegram Trigger",
+      "webhookId": "36b3d2c7-9508-4319-bc4c-6ca871a993fe",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "gFqrqvMMuykchDgs",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}{{ $json.output }}",
+        "additionalFields": {
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -784,
+        144
+      ],
+      "id": "cc6a75da-58c0-471e-97e9-e96783d2109d",
+      "name": "Send a text message",
+      "webhookId": "c26e605a-841b-41f4-afce-9c44f365ab7d",
+      "credentials": {
+        "telegramApi": {
+          "id": "gFqrqvMMuykchDgs",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.message_id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1376,
+        256
+      ],
+      "id": "bae41f38-714b-422d-8e7f-df941256eaaf",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "72e9a92d-f40d-4be9-ab3a-9c8b830eb579",
+              "leftValue": "={{ $json.message.chat.id }}",
+              "rightValue": "={{ Number($json.id_chat)}}",
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1728,
+        288
+      ],
+      "id": "fe0cd8d4-c04d-405d-a9ee-723a97983ab4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Nie poprawny id czatu",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1264,
+        432
+      ],
+      "id": "830bec18-e694-4c47-acf6-0b3ad014c890",
+      "name": "Send a text message1",
+      "webhookId": "ea8647e8-fcab-41db-9492-d5d3f3975dc0",
+      "credentials": {
+        "telegramApi": {
+          "id": "gFqrqvMMuykchDgs",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "r5iHFZ9vD734mOPl"
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -1952,
+        192
+      ],
+      "id": "ab8f38b8-4bdb-4109-b93b-1509fd7a9a14",
+      "name": "Get row(s)"
     }
   ],
   "connections": {
     "When chat message received": {
       "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Send a text message",
             "type": "main",
             "index": 0
           }
@@ -143,17 +275,6 @@
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Simple Memory1": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -191,11 +312,61 @@
           }
         ]
       ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "pinData": {},
   "meta": {
-    "templateId": "self-building-ai-agent",
     "templateCredsSetupCompleted": true,
     "instanceId": "fc1ba0345969f7228871df9e64b3b47e4f43ee33b19ce42717b44162e39dba6e"
   }
