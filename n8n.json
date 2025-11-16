@@ -2,28 +2,14 @@
   "nodes": [
     {
       "parameters": {
-        "options": {}
-      },
-      "id": "b4ea1ecb-51f8-4c5d-9397-48d83d365252",
-      "name": "When chat message received",
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -1952,
-        656
-      ],
-      "webhookId": "a889d2ae-2159-402f-b326-5f61e90f602e"
-    },
-    {
-      "parameters": {
         "promptType": "define",
-        "text": "={{ $json.message.text }}",
+        "text": "={{ $('Telegram Trigger').item.json.message.text }}",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -1328,
+        -1224,
         32
       ],
       "id": "4182f86c-3680-4739-83d4-0c2f9a573b15",
@@ -36,7 +22,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        -1504,
+        -1472,
         256
       ],
       "id": "a6bd96b5-339e-4e15-a70c-094cc401133d",
@@ -53,12 +39,14 @@
         "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
         "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
         "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
-        "options": {}
+        "options": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.1,
       "position": [
-        -1248,
+        -1216,
         256
       ],
       "id": "8e05d375-3db9-47b3-b6b5-9fac9fd31546",
@@ -73,43 +61,13 @@
     },
     {
       "parameters": {
-        "calendar": {
-          "__rl": true,
-          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Calendar', ``, 'string') }}",
-          "mode": "id"
-        },
-        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
-        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
-        "useDefaultReminders": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Use_Default_Reminders', ``, 'boolean') }}",
-        "additionalFields": {
-          "description": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Description', ``, 'string') }}",
-          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
-        }
-      },
-      "type": "n8n-nodes-base.googleCalendarTool",
-      "typeVersion": 1.3,
-      "position": [
-        -1120,
-        256
-      ],
-      "id": "971e439a-bc51-4c6b-a9b4-d83fe44bbd45",
-      "name": "Create an event in Google Calendar",
-      "notesInFlow": false,
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "Kif8MuBn1SYbgina",
-          "name": "Google Calendar account 2"
-        }
-      }
-    },
-    {
-      "parameters": {
+        "includeTime": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Include_Current_Time', ``, 'boolean') }}",
         "options": {}
       },
       "type": "n8n-nodes-base.dateTimeTool",
       "typeVersion": 2,
       "position": [
-        -992,
+        -1088,
         256
       ],
       "id": "5b397335-2a82-4947-96cf-715ae80f97a1",
@@ -125,8 +83,8 @@
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1952,
-        384
+        -2144,
+        284
       ],
       "id": "33897b41-e712-4283-9f47-0be0f57140da",
       "name": "Telegram Trigger",
@@ -143,16 +101,19 @@
     {
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-        "text": "={{ $json.output }}{{ $json.output }}",
+        "text": "={{ $json.output }}",
+        "replyMarkup": "forceReply",
+        "forceReply": {},
         "additionalFields": {
-          "parse_mode": "Markdown"
+          "appendAttribution": false,
+          "parse_mode": "HTML"
         }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -784,
-        144
+        -624,
+        136
       ],
       "id": "cc6a75da-58c0-471e-97e9-e96783d2109d",
       "name": "Send a text message",
@@ -166,20 +127,6 @@
     },
     {
       "parameters": {
-        "sessionIdType": "customKey",
-        "sessionKey": "={{ $json.message.message_id }}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-      "typeVersion": 1.3,
-      "position": [
-        -1376,
-        256
-      ],
-      "id": "bae41f38-714b-422d-8e7f-df941256eaaf",
-      "name": "Simple Memory"
-    },
-    {
-      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -190,8 +137,8 @@
           "conditions": [
             {
               "id": "72e9a92d-f40d-4be9-ab3a-9c8b830eb579",
-              "leftValue": "={{ $json.message.chat.id }}",
-              "rightValue": "={{ Number($json.id_chat)}}",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "rightValue": "={{Number($json.id_chat)}}",
               "operator": {
                 "type": "number",
                 "operation": "equals"
@@ -205,8 +152,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1728,
-        288
+        -1696,
+        284
       ],
       "id": "fe0cd8d4-c04d-405d-a9ee-723a97983ab4",
       "name": "If"
@@ -215,12 +162,14 @@
       "parameters": {
         "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
         "text": "Nie poprawny id czatu",
-        "additionalFields": {}
+        "additionalFields": {
+          "appendAttribution": false
+        }
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1264,
+        -1160,
         432
       ],
       "id": "830bec18-e694-4c47-acf6-0b3ad014c890",
@@ -245,19 +194,88 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1,
       "position": [
-        -1952,
-        192
+        -1920,
+        284
       ],
       "id": "ab8f38b8-4bdb-4109-b93b-1509fd7a9a14",
       "name": "Get row(s)"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Create an event in Google Calendar",
+        "calendar": {
+          "__rl": true,
+          "value": "tomasz.jader@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tomasz.jader@gmail.com"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -960,
+        256
+      ],
+      "id": "6e818484-c5fc-4e57-b322-b1e7571a1d66",
+      "name": "Create an event in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "Kif8MuBn1SYbgina",
+          "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1344,
+        256
+      ],
+      "id": "a8cc7c05-bbbd-4267-a8bb-30817050c06c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "tomasz.jader@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tomasz.jader@gmail.com"
+        },
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('After', ``, 'string') }}",
+        "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Before', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -832,
+        256
+      ],
+      "id": "3242144b-d7e8-4f55-a91d-c97e8989620f",
+      "name": "Get many events in Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "Kif8MuBn1SYbgina",
+          "name": "Google Calendar account 2"
+        }
+      }
     }
   ],
   "connections": {
-    "When chat message received": {
-      "main": [
-        []
-      ]
-    },
     "AI Agent": {
       "main": [
         [
@@ -291,17 +309,6 @@
         ]
       ]
     },
-    "Create an event in Google Calendar": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Date & Time": {
       "ai_tool": [
         [
@@ -317,19 +324,8 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "Get row(s)",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Simple Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -359,6 +355,39 @@
           {
             "node": "If",
             "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
             "index": 0
           }
         ]
