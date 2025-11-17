@@ -1,4 +1,4 @@
-# Agent Automatyzacji w N8N – Zarządzanie Zadaniami
+# Agent N8N
 
 Zautomatyzowany agent stworzony na platformie n8n (low-code), mający na celu usprawnienie codziennych zadań związanych z kalendarzem i komunikacją.
 
