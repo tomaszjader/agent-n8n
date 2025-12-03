@@ -9,8 +9,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        -1224,
-        32
+        -1168,
+        -16
       ],
       "id": "4182f86c-3680-4739-83d4-0c2f9a573b15",
       "name": "AI Agent"
@@ -23,7 +23,7 @@
       "typeVersion": 1,
       "position": [
         -1472,
-        256
+        208
       ],
       "id": "a6bd96b5-339e-4e15-a70c-094cc401133d",
       "name": "Google Gemini Chat Model1",
@@ -47,7 +47,7 @@
       "typeVersion": 2.1,
       "position": [
         -1216,
-        256
+        208
       ],
       "id": "8e05d375-3db9-47b3-b6b5-9fac9fd31546",
       "name": "Send a message in Gmail1",
@@ -68,7 +68,7 @@
       "typeVersion": 2,
       "position": [
         -1088,
-        256
+        208
       ],
       "id": "5b397335-2a82-4947-96cf-715ae80f97a1",
       "name": "Date & Time"
@@ -84,7 +84,7 @@
       "typeVersion": 1.2,
       "position": [
         -2144,
-        284
+        240
       ],
       "id": "33897b41-e712-4283-9f47-0be0f57140da",
       "name": "Telegram Trigger",
@@ -112,8 +112,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -624,
-        136
+        -496,
+        96
       ],
       "id": "cc6a75da-58c0-471e-97e9-e96783d2109d",
       "name": "Send a text message",
@@ -153,7 +153,7 @@
       "typeVersion": 2.2,
       "position": [
         -1696,
-        284
+        240
       ],
       "id": "fe0cd8d4-c04d-405d-a9ee-723a97983ab4",
       "name": "If"
@@ -169,8 +169,8 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -1160,
-        432
+        -1104,
+        384
       ],
       "id": "830bec18-e694-4c47-acf6-0b3ad014c890",
       "name": "Send a text message1",
@@ -195,7 +195,7 @@
       "typeVersion": 1,
       "position": [
         -1920,
-        284
+        240
       ],
       "id": "ab8f38b8-4bdb-4109-b93b-1509fd7a9a14",
       "name": "Get row(s)"
@@ -220,7 +220,7 @@
       "typeVersion": 1.3,
       "position": [
         -960,
-        256
+        208
       ],
       "id": "6e818484-c5fc-4e57-b322-b1e7571a1d66",
       "name": "Create an event in Google Calendar",
@@ -240,7 +240,7 @@
       "typeVersion": 1.3,
       "position": [
         -1344,
-        256
+        208
       ],
       "id": "a8cc7c05-bbbd-4267-a8bb-30817050c06c",
       "name": "Simple Memory"
@@ -263,7 +263,7 @@
       "typeVersion": 1.3,
       "position": [
         -832,
-        256
+        208
       ],
       "id": "3242144b-d7e8-4f55-a91d-c97e8989620f",
       "name": "Get many events in Google Calendar",
@@ -271,6 +271,27 @@
         "googleCalendarOAuth2Api": {
           "id": "Kif8MuBn1SYbgina",
           "name": "Google Calendar account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "task": "MDg4OTMyNzEwMzg5ODkyMDkwNzg6MDow",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.googleTasksTool",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        208
+      ],
+      "id": "2f909ea0-0fec-4e17-b064-d8e748a4d988",
+      "name": "Create a task in Google Tasks",
+      "credentials": {
+        "googleTasksOAuth2Api": {
+          "id": "Ngrp8arRbsLNDafI",
+          "name": "Google Tasks account"
         }
       }
     }
@@ -383,6 +404,17 @@
       ]
     },
     "Get many events in Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a task in Google Tasks": {
       "ai_tool": [
         [
           {
